@@ -294,14 +294,7 @@ body.dark-mode form button:hover {
     background-color: #27ae60; /* Hover do botão de adicionar tarefa */
 }
 
-body.dark-mode .task button {
-    background: #5d748f; /* Botões das tarefas no modo escuro */
-    color: #ecf0f1;
-}
 
-body.dark-mode .task button:hover {
-    background: #6e86a0; /* Hover dos botões das tarefas */
-}
 
 body.dark-mode .task.concluida {
     text-decoration-color: rgba(236, 240, 241, 0.6); /* Cor da linha de rasura no modo escuro */
