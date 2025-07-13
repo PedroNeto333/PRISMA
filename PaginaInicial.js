@@ -1,26 +1,21 @@
-// ... (código anterior do script.js) ...
+document.addEventListener('DOMContentLoaded', () => {
+    const cards = document.querySelectorAll('.card');
 
-    cards.forEach(card => {
-        card.addEventListener('click', () => {
-            const cardType = card.dataset.cardType;
-            let message = `Você clicou no card: "${cardType}"`;
-
-            // Esta parte aqui pode ser removida, pois não haverá mais 'empty' card
-            // if (cardType === 'empty') {
-            //     message = 'Você clicou no card vazio para adicionar algo!';
-            //     console.log("Ação para adicionar um novo card.");
-            // } else
-            if (cardType === 'task-manager') {
-                message += '\nRedirecionando para o Gestor de Tarefas...';
-                // window.location.href = 'gestor-tarefas.html'; // Exemplo de redirecionamento
-            } else if (cardType === 'pomodoro') { // Adicione uma lógica específica para o Pomodoro
-                message = 'Você clicou no card Pomodoro!';
-                // Aqui você pode iniciar um timer Pomodoro ou abrir uma nova janela/modal.
+    // Função para atualizar os badges de notificação (exemplo)
+    function updateNotificationBadge(cardType, count) {
+        const badge = document.querySelector(`.notification-badge[data-card-target="${cardType}"]`);
+        if (badge) {
+            badge.textContent = count;
+            if (count > 0) {
+                badge.classList.add('visible');
+            } else {
+                badge.classList.remove('visible');
             }
-            // Adicione mais `else if` para outros tipos de card, se necessário
+        }
+    }
 
-            alert(message);
-        });
-    });
-
-// ... (resto do código) ...
+    // Exemplo de como usar a função (você chamaria isso de onde suas notificações vêm)
+    // updateNotificationBadge('gestor-tarefas', 5);
+    // updateNotificationBadge('music', 2);
+    // updateNotificationBadge('news', 0); // Remove o badge se for 0
+});

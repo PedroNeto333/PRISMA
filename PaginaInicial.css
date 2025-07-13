@@ -65,7 +65,7 @@ body {
 /* Estilo para o link que envolve o card */
 .card-link {
     text-decoration: none; /* Remove o sublinhado */
-    color: inherit;      /* Faz com que o link herde a cor do texto do seu pai */
+    color: inherit;       /* Faz com que o link herde a cor do texto do seu pai */
 }
 
 .card {
