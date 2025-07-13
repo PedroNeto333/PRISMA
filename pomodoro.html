@@ -4,105 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pomodoro Timer</title>
-  <link rel="stylesheet" href="style.css" /> <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <style>
-    /* Estilos específicos para a página do Pomodoro */
-    body {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh; /* Garante que ocupe a altura total da viewport */
-        background-color: var(--background-color); /* Usa a variável do tema */
-        color: var(--text-color); /* Usa a variável do tema */
-        transition: background-color 0.3s ease, color 0.3s ease;
-    }
-
-    header {
-        position: absolute; /* Para que o header não atrapalhe o centralização do timer */
-        top: 0;
-        width: 100%;
-        padding: 1rem 2rem;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background-color: var(--header-background-color);
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        z-index: 10;
-    }
-
-    .pomodoro-container {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        padding: 2rem;
-        background-color: var(--card-background-color);
-        border-radius: 12px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-        max-width: 500px; /* Limita a largura */
-        width: 90%;
-    }
-
-    .pomodoro-container h1 {
-        font-size: 2.5rem;
-        margin-bottom: 1.5rem;
-        color: var(--primary-color);
-    }
-
-    .pomodoro-display {
-        font-size: 6rem; /* Ainda maior para destaque */
-        margin-bottom: 2rem;
-        color: var(--primary-color);
-        min-width: unset; /* Remove o min-width para o display global */
-        padding: 0.5rem 2rem;
-    }
-
-    .timer-buttons {
-        display: flex;
-        gap: 15px;
-        margin-bottom: 1.5rem;
-    }
-
-    .pomodoro-control-button {
-        padding: 1rem 2rem;
-        font-size: 1.2rem;
-    }
-
-    .current-pomodoro-task-info {
-        font-size: 1.3rem;
-        margin-top: 1rem;
-        color: var(--text-color-light);
-        font-weight: 600;
-        text-align: center;
-    }
-
-    /* Adicione estas variáveis ao topo do seu style.css, se não tiver: */
-    :root {
-        --background-color: #f4f7f6;
-        --text-color: #333;
-        --text-color-light: #555;
-        --primary-color: #007bff;
-        --header-background-color: #ffffff;
-        --card-background-color: #ffffff;
-        --border-color: #e0e0e0;
-        --shadow-color: rgba(0,0,0,0.08);
-    }
-
-    /* Modo Escuro */
-    body.dark-mode {
-        --background-color: #1e2a38;
-        --text-color: #ecf0f1;
-        --text-color-light: #bdc3c7;
-        --primary-color: #8bb8ff;
-        --header-background-color: #2c3e50;
-        --card-background-color: #2c3e50;
-        --border-color: #3a506b;
-        --shadow-color: rgba(0,0,0,0.25);
-    }
-    
-  </style>
+  <link rel="stylesheet" href="pomodoro.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
   <header>
@@ -147,5 +50,6 @@
   <script>
     lucide.createIcons();
   </script>
-  <script src="pomodoro-script.js"></script> </body>
+  <script src="pomodoro-script.js"></script>
+</body>
 </html>
