@@ -39,26 +39,6 @@ header h1 {
     margin-bottom: 0.5rem; /* Ajuste para não ficar muito grudado no botão */
 }
 
-/* Estilos do botão de alternar tema */
-#theme-toggle {
-    position: absolute; /* Posicionamento absoluto */
-    top: 1rem; /* Distância do topo */
-    right: 1rem; /* Distância da direita */
-    background-color: transparent; /* Fundo transparente */
-    color: white; /* Cor do ícone */
-    border: 2px solid white; /* Borda visível */
-    padding: 0.5rem;
-    border-radius: 50%; /* Faz o botão circular */
-    width: 40px; /* Largura para o ícone */
-    height: 40px; /* Altura para o ícone */
-    display: flex; /* Para centralizar o ícone */
-    justify-content: center; /* Centraliza horizontalmente */
-    align-items: center; /* Centraliza verticalmente */
-    cursor: pointer;
-    transition: background-color 0.3s, border-color 0.3s;
-    font-size: 0; /* Oculta o texto por padrão, só o ícone aparece */
-    overflow: hidden; /* Garante que o texto não "vaze" */
-}
 
 #theme-toggle:hover {
     background-color: rgba(255, 255, 255, 0.1); /* Um leve fundo no hover */
