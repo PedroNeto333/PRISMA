@@ -5,8 +5,6 @@ let filtroCategoriaAtual = "todos";
 let tarefaSendoEditadaId = null;
 let tarefaArrastadaId = null; // Para Drag & Drop
 
-// REMOVIDO: Variáveis para o Timer Pomodoro Global
-
 // --- Referências DOM ---
 const form = document.getElementById("task-form");
 const inputNome = document.getElementById("task-name");
@@ -20,6 +18,7 @@ const noPendingTasksMessage = document.getElementById("no-pending-tasks-message"
 const noArchivedTasksMessage = document.getElementById("no-archived-tasks-message");
 
 const themeToggleBtn = document.getElementById("theme-toggle");
+const backButton = document.getElementById("back-button");
 
 const editTaskModal = document.getElementById("edit-task-modal");
 const editTaskForm = document.getElementById("edit-task-form");
@@ -28,13 +27,61 @@ const editTaskPrioritySelect = document.getElementById("edit-task-priority");
 const editTaskCategorySelect = document.getElementById("edit-task-category");
 const editTaskReminderDatetimeInput = document.getElementById("edit-task-reminder-datetime");
 const cancelEditButton = document.getElementById("cancel-edit-button");
-
 const exportTxtButton = document.getElementById("export-txt-button");
 const exportJsonButton = document.getElementById("export-json-button");
 
-// REMOVIDO: Referências DOM para o Timer Pomodoro Global
+// Referências DOM para o novo modal de mensagem
+const messageModal = document.getElementById("message-modal");
+const messageModalTitle = document.getElementById("message-modal-title");
+const messageModalText = document.getElementById("message-modal-text");
+const messageModalOkButton = document.getElementById("message-modal-ok-button");
+
 
 const notificationTimeouts = {};
+
+// --- Funções Auxiliares de UI (para substituir alert/confirm) ---
+function showMessageBox(title, message, callback = () => {}) {
+    messageModalTitle.textContent = title;
+    messageModalText.textContent = message;
+    messageModal.classList.add("visible");
+
+    // Limpa qualquer listener anterior para evitar múltiplos disparos
+    messageModalOkButton.onclick = null; 
+    messageModalOkButton.onclick = () => {
+        messageModal.classList.remove("visible");
+        callback();
+    };
+}
+
+function showConfirmBox(title, message, onConfirm, onCancel = () => {}) {
+    // Reutiliza o modal de mensagem, mas adiciona um botão de cancelar e ajusta o OK
+    messageModalTitle.textContent = title;
+    messageModalText.textContent = message;
+    messageModal.classList.add("visible");
+
+    // Cria um botão de cancelar temporário
+    let cancelButton = document.createElement('button');
+    cancelButton.textContent = 'Cancelar';
+    cancelButton.classList.add('modal-cancel-button'); // Use sua classe de botão cancelar
+    cancelButton.onclick = () => {
+        messageModal.classList.remove("visible");
+        onCancel();
+        cancelButton.remove(); // Remove o botão após o uso
+    };
+
+    // Adiciona o botão de cancelar antes do botão OK
+    messageModalOkButton.parentNode.insertBefore(cancelButton, messageModalOkButton);
+
+    // Ajusta o botão OK para a ação de confirmação
+    messageModalOkButton.textContent = 'Confirmar'; // Muda o texto para "Confirmar"
+    messageModalOkButton.onclick = () => {
+        messageModal.classList.remove("visible");
+        onConfirm();
+        cancelButton.remove(); // Remove o botão de cancelar
+        messageModalOkButton.textContent = 'OK'; // Volta o texto do botão OK para o padrão
+    };
+}
+
 
 // --- Funções de Persistência (localStorage) ---
 function carregarTarefas() {
@@ -106,8 +153,21 @@ function solicitarPermissaoNotificacao() {
     return Notification.requestPermission();
 }
 
-
 // --- Event Listeners Principais ---
+document.addEventListener("DOMContentLoaded", () => {
+    carregarTarefas();
+    renderizarTarefas();
+    setupDragAndDrop();
+    solicitarPermissaoNotificacao();
+
+    // Event Listener para o botão de voltar - MOVIDO PARA AQUI
+    if (backButton) { 
+        backButton.addEventListener("click", () => {
+            history.back(); // Esta função do navegador faz a página voltar na história
+        });
+    }
+});
+
 form.addEventListener("submit", function (e) {
     e.preventDefault();
 
@@ -116,7 +176,7 @@ form.addEventListener("submit", function (e) {
     const categoria = selectCategoria.value;
 
     if (nome === "") {
-        alert("O nome da tarefa não pode ser vazio!");
+        showMessageBox("Erro", "O nome da tarefa não pode ser vazio!");
         return;
     }
 
@@ -163,12 +223,14 @@ function renderizarTarefas() {
     pendingTasks.forEach((tarefa) => {
         const div = criarElementoTarefa(tarefa);
         pendingTasksContainer.appendChild(div);
-        lucide.createIcons({ container: div });
+        // Garante que os ícones Lucide sejam criados dentro da nova tarefa
+        lucide.createIcons({ container: div }); 
     });
 
     archivedTasks.forEach((tarefa) => {
         const div = criarElementoTarefa(tarefa);
         archivedTasksContainer.appendChild(div);
+        // Garante que os ícones Lucide sejam criados dentro da nova tarefa
         lucide.createIcons({ container: div });
     });
 
@@ -292,7 +354,11 @@ function criarElementoTarefa(tarefa) {
         <span data-lucide="trash-2" class="lucide-icon"></span>
         <span class="button-text-hidden">Excluir</span>
     `;
-    btnExcluir.onclick = () => removerTarefa(tarefa.id, div);
+    btnExcluir.onclick = () => showConfirmBox(
+        "Confirmar Exclusão", 
+        `Tem certeza que deseja excluir a tarefa "${tarefa.nome}"?`, 
+        () => removerTarefa(tarefa.id, div)
+    );
 
     // ADIÇÃO AQUI: Adicionar uma classe específica para o botão de exclusão de alta prioridade
     if (tarefa.prioridade === 'alta') {
@@ -313,11 +379,15 @@ function criarElementoTarefa(tarefa) {
             <span class="button-text-hidden">Pomodoro Concluído</span>
         `;
         btnPomodoro.onclick = () => {
-            if (confirm(`Marcar um Pomodoro concluído para "${tarefa.nome}"?`)) {
-                tarefa.pomodorosCompletos = (tarefa.pomodorosCompletos || 0) + 1;
-                salvarTarefas();
-                renderizarTarefas();
-            }
+            showConfirmBox(
+                "Marcar Pomodoro",
+                `Marcar um Pomodoro concluído para "${tarefa.nome}"?`,
+                () => {
+                    tarefa.pomodorosCompletos = (tarefa.pomodorosCompletos || 0) + 1;
+                    salvarTarefas();
+                    renderizarTarefas();
+                }
+            );
         };
         
         div.appendChild(btnPomodoro);
@@ -333,10 +403,11 @@ function criarElementoTarefa(tarefa) {
     actionsContainer.appendChild(btnConcluirOuDesarquivar);
     actionsContainer.appendChild(btnEditar);
     
-    const btnPomodoro = div.querySelector('.pomodoro-button');
-    if (btnPomodoro) actionsContainer.appendChild(btnPomodoro);
-    const pomodoroCounterSpan = div.querySelector('.pomodoro-counter');
-    if (pomodoroCounterSpan) actionsContainer.appendChild(pomodoroCounterSpan);
+    // Reorganiza a adição dos botões e contadores de pomodoro
+    const existingBtnPomodoro = div.querySelector('.pomodoro-button');
+    if (existingBtnPomodoro) actionsContainer.appendChild(existingBtnPomodoro);
+    const existingPomodoroCounterSpan = div.querySelector('.pomodoro-counter');
+    if (existingPomodoroCounterSpan) actionsContainer.appendChild(existingPomodoroCounterSpan);
 
     actionsContainer.appendChild(btnExcluir);
     
@@ -384,7 +455,7 @@ function desarquivarTarefa(id) {
 function abrirModalEdicao(id) {
     const tarefa = tarefas.find((t) => t.id === id);
     if (!tarefa || tarefa.arquivada) {
-        alert("Você não pode editar tarefas arquivadas. Por favor, desarquive-a primeiro.");
+        showMessageBox("Edição Não Permitida", "Você não pode editar tarefas arquivadas. Por favor, desarquive-a primeiro.");
         return;
     }
 
@@ -428,7 +499,7 @@ editTaskForm.addEventListener("submit", function (e) {
     const novoLembreteDatetime = editTaskReminderDatetimeInput.value;
 
     if (novoNome === "") {
-        alert("O nome da tarefa não pode ser vazio!");
+        showMessageBox("Erro", "O nome da tarefa não pode ser vazio!");
         return;
     }
 
@@ -441,7 +512,7 @@ editTaskForm.addEventListener("submit", function (e) {
         const agora = Date.now();
 
         if (dataLembrete <= agora) {
-            alert("A data/hora do lembrete deve ser no futuro. Lembrete não agendado.");
+            showMessageBox("Erro de Lembrete", "A data/hora do lembrete deve ser no futuro. Lembrete não agendado.");
             tarefa.lembreteAgendado = null;
             cancelarLembrete(tarefa.id, false);
         } else {
@@ -474,7 +545,7 @@ function agendarNotificacaoReal(id, nomeTarefa, tempoParaNotificarMs) {
     notificationTimeouts[id] = setTimeout(() => {
         new Notification("Lembrete de Tarefa", {
             body: `Não se esqueça de: "${nomeTarefa}"`,
-            icon: 'icon.png'
+            icon: 'icon.png' // Certifique-se de ter um arquivo icon.png ou ajuste o caminho
         });
         delete notificationTimeouts[id];
         const tarefa = tarefas.find(t => t.id === id);
@@ -524,7 +595,7 @@ function downloadFile(filename, text, type) {
 
 function exportarTarefasTxt() {
     if (tarefas.length === 0) {
-        alert("Não há tarefas para exportar.");
+        showMessageBox("Aviso", "Não há tarefas para exportar.");
         return;
     }
 
@@ -560,23 +631,27 @@ function exportarTarefasTxt() {
     }
 
     downloadFile("minhas_tarefas.txt", textContent, "text/plain");
-    alert("Tarefas exportadas como minhas_tarefas.txt!");
+    showMessageBox("Sucesso", "Tarefas exportadas como minhas_tarefas.txt!");
 }
 
 function exportarTarefasJson() {
     if (tarefas.length === 0) {
-        alert("Não há tarefas para exportar.");
+        showMessageBox("Aviso", "Não há tarefas para exportar.");
         return;
     }
 
     const jsonContent = JSON.stringify(tarefas, null, 2);
 
     downloadFile("minhas_tarefas.json", jsonContent, "application/json");
-    alert("Tarefas exportadas como minhas_tarefas.json!");
+    showMessageBox("Sucesso", "Tarefas exportadas como minhas_tarefas.json!");
 }
 
 
 // --- Funções de Drag & Drop ---
+
+function setupDragAndDrop() { // Renomeado para evitar conflito com o nome da variável
+    configurarDragAndDropContainers();
+}
 
 function configurarDragAndDropContainers() {
     [pendingTasksContainer, archivedTasksContainer].forEach(container => {
@@ -653,11 +728,3 @@ function reordenarTarefas(draggedId, targetId, insertAfter) {
     salvarTarefas();
     renderizarTarefas();
 }
-
-
-// --- Inicialização ---
-document.addEventListener("DOMContentLoaded", () => {
-    carregarTarefas();
-    renderizarTarefas();
-    solicitarPermissaoNotificacao();
-});

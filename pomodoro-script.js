@@ -13,11 +13,14 @@ let isPaused = false; // NOVO: Para controlar o estado de pausa
 // --- Referências DOM ---
 const themeToggleBtn = document.getElementById("theme-toggle");
 const pomodoroDisplay = document.getElementById("pomodoro-display");
-const pomodoroStartButton = document.getElementById("pomodoro-start-button"); // NOVO
+const pomodoroStartButton = document.getElementById("pomodoro-start-button");
 const pomodoroPauseResumeButton = document.getElementById("pomodoro-pause-resume-button");
 const pomodoroResetButton = document.getElementById("pomodoro-reset-button");
 const currentPomodoroTaskInfo = document.getElementById("current-pomodoro-task-info");
-const pomodorosCountInfo = document.getElementById("pomodoros-count-info"); // NOVO
+const pomodorosCountInfo = document.getElementById("pomodoros-count-info");
+
+// NOVO: Referência ao botão de voltar
+const backButton = document.getElementById("back-button");
 
 // --- Funções de Tema (Copiadas do script.js original) ---
 function aplicarTema(isDarkMode) {
@@ -104,6 +107,7 @@ function updatePomodoroDisplay() {
     pomodorosCountInfo.textContent = `Pomodoros Completos: ${pomodorosCompletosNestaSessao}`;
     pomodorosCountInfo.classList.remove('hidden');
 
+    // Certifique-se de que lucide.createIcons() seja chamado para renderizar os ícones
     lucide.createIcons();
 }
 
@@ -142,6 +146,7 @@ function contarPomodoro() {
 
             notificationTitle = "Pomodoro Concluído!";
             notificationBody = `Hora de uma pausa! Você completou ${pomodorosCompletosNestaSessao} Pomodoros nesta sessão.`;
+            // Certifique-se de que 'bell.mp3' está disponível ou remova esta linha
             new Audio('bell.mp3').play().catch(e => console.error("Erro ao tocar áudio:", e));
 
             if (pomodorosCompletosNestaSessao % POMODOROS_PARA_PAUSA_LONGA === 0) {
@@ -158,6 +163,7 @@ function contarPomodoro() {
         } else { // É uma fase de pausa
             notificationTitle = "Pausa Terminada!";
             notificationBody = "Hora de voltar ao foco!";
+            // Certifique-se de que 'bell.mp3' está disponível ou remova esta linha
             new Audio('bell.mp3').play().catch(e => console.error("Erro ao tocar áudio:", e));
             
             tempoRestanteSegundos = TEMPO_FOCU_MINUTOS * 60;
@@ -210,14 +216,20 @@ function resetPomodoro() {
 
 
 // --- Event Listeners ---
-pomodoroStartButton.addEventListener("click", iniciarPomodoro); // NOVO
+pomodoroStartButton.addEventListener("click", iniciarPomodoro);
 pomodoroPauseResumeButton.addEventListener("click", togglePomodoroPauseResume);
 pomodoroResetButton.addEventListener("click", resetPomodoro);
 
-
-// --- Inicialização ---
+// NOVO: Event Listener para o botão de voltar
+// Garante que o botão exista antes de adicionar o listener
 document.addEventListener("DOMContentLoaded", () => {
     tempoRestanteSegundos = TEMPO_FOCU_MINUTOS * 60; // Define o tempo inicial no carregamento
     updatePomodoroDisplay();
     solicitarPermissaoNotificacao(); // Solicita permissão ao carregar a página
+
+    if (backButton) {
+        backButton.addEventListener("click", () => {
+            history.back(); // Esta função do navegador faz a página voltar na história
+        });
+    }
 });

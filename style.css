@@ -25,19 +25,8 @@ header {
     gap: 15px;
 }
 
-.header-buttons-group {
-    display: flex; /* Torna este grupo flexível */
-    align-items: center;
-    gap: 15px; /* Espaçamento entre o botão Pomodoro e o botão de Tema */
-    /* Você pode adicionar justify-content aqui se quiser centralizar os botões dentro do grupo,
-       mas 'gap' já deve ser suficiente para mantê-los próximos */
-}
 
-/* ... (o restante do seu CSS permanece o mesmo) ... */
 
-header h1 {
-    margin-bottom: 0.5rem; /* Ajuste para não ficar muito grudado no botão */
-}
 
 
 #theme-toggle:hover {
@@ -990,11 +979,6 @@ body.dark-mode .current-pomodoro-task-info {
 
 
 
-header h1 {
-    margin: 0;
-    font-size: 2rem;
-    color: var(--primary-color);
-}
 
 main {
     flex-grow: 1; /* Faz o conteúdo principal ocupar o espaço restante */
@@ -1013,30 +997,6 @@ footer {
     color: var(--text-color-light);
     box-shadow: 0 -2px 4px var(--shadow-color);
     margin-top: auto; /* Empurra o rodapé para baixo */
-}
-
-/* --- Botão Alternar Tema --- */
-#theme-toggle {
-    background: none;
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    padding: 0.7rem 1.2rem;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    transition: background-color 0.2s ease, border-color 0.2s ease;
-    color: var(--text-color);
-}
-
-#theme-toggle:hover {
-    background-color: var(--background-color);
-    border-color: var(--primary-color);
-}
-
-#theme-toggle .icon {
-    width: 24px;
-    height: 24px;
 }
 
 .sun-icon {
@@ -1468,20 +1428,6 @@ form input[type="text"]::placeholder {
 }
 
 /* Ajuste para o título no cabeçalho */
-header h1 {
-    color: var(--text-color); /* Garante que o título use a cor de texto principal */
-}
-
-/* Ajuste para o botão de tema */
-#theme-toggle {
-    border: 1px solid var(--border-color); /* Usa a cor de borda geral */
-    color: var(--text-color); /* Garante que o texto do botão de tema seja legível */
-}
-
-#theme-toggle:hover {
-    background-color: var(--background-color); /* Usa o background geral para o hover */
-    border-color: var(--primary-color);
-}
 
 .sun-icon {
     color: orange; /* Mantenha uma cor que se destaque no modo claro */
@@ -1504,30 +1450,7 @@ body {
     flex-direction: column;
 }
 
-/* Header */
-header {
-    background-color: var(--header-background-color);
-    color: var(--text-color);
-    padding: 1.5rem 2rem;
-    display: flex;
-    justify-content: space-between; /* Mantém o título à esquerda e o grupo de botões à direita */
-    align-items: center;
-    box-shadow: 0 2px 4px var(--shadow-color);
-    flex-wrap: wrap; /* Permite que os itens quebrem a linha em telas menores */
-    gap: 15px; /* Espaçamento entre o h1 e o header-buttons-group */
-}
 
-header h1 {
-    margin: 0;
-    font-size: 1.8rem;
-    color: var(--text-color); /* Garante que o título use a cor de texto principal */
-}
-
-.header-buttons-group {
-    display: flex; /* Torna este grupo flexível */
-    align-items: center;
-    gap: 15px; /* Espaçamento entre o botão Pomodoro e o botão de Tema */
-}
 
 /* Botão de Navegação (Pomodoro) */
 .nav-button {
@@ -2078,29 +2001,7 @@ body {
 }
 
 /* Header */
-header {
-    background-color: var(--header-background-color);
-    color: var(--text-color);
-    padding: 1.5rem 2rem;
-    display: flex;
-    justify-content: space-between; /* Mantém o título à esquerda e o grupo de botões à direita */
-    align-items: center;
-    box-shadow: 0 2px 4px var(--shadow-color);
-    flex-wrap: wrap; /* Permite que os itens quebrem a linha em telas menores */
-    gap: 15px; /* Espaçamento entre o h1 e o header-buttons-group */
-}
 
-header h1 {
-    margin: 0;
-    font-size: 1.8rem;
-    color: var(--text-color); /* Garante que o título use a cor de texto principal */
-}
-
-.header-buttons-group {
-    display: flex; /* Torna este grupo flexível */
-    align-items: center;
-    gap: 15px; /* Espaçamento entre o botão Pomodoro e o botão de Tema */
-}
 
 /* Botão de Navegação (Pomodoro) */
 .nav-button {
@@ -2133,28 +2034,6 @@ header h1 {
 
 .nav-button .button-text {
     white-space: nowrap; /* Evita que o texto quebre */
-}
-
-/* Theme Toggle Button */
-#theme-toggle {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 15px;
-    background-color: white; /* Cor de fundo no modo CLARO */
-    color: var(--text-color); /* Cor do texto/ícone no modo CLARO (controlado pela variável) */
-    border: 1px solid var(--border-color); /* Cor da borda no modo CLARO (controlado pela variável) */
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 0.9em;
-    font-weight: 600;
-    transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
-    box-shadow: 0 2px 5px var(--shadow-color);
-}
-
-#theme-toggle:hover {
-    background-color: #b1b1b1; /* Cor de fundo no hover (no modo CLARO) */
-    transform: translateY(-1px);
 }
 
 #theme-toggle .icon {
@@ -2653,21 +2532,6 @@ footer {
     box-shadow: 0 -2px 4px var(--shadow-color);
 }
 
-
-/* --- NOVAS REGRAS PARA BOTÕES ESPECÍFICOS --- */
-
-/* Estilo para o botão de alternar tema (já existe e você pode sobrepor cores) */
-#theme-toggle {
-    background-color: #000000; /* Azul violeta */
-    border-color: #93d7ff00;
-    color: white; /* Garante que o ícone e texto fiquem brancos */
-}
-
-#theme-toggle:hover {
-    background-color: #000000; /* Cor ao passar o mouse */
-    border-color: #93d7ff;
-}
-
 /* Estilo para o botão de Exportar para TXT */
 #export-txt-button {
     background-color: #20B2AA; /* Azul esverdeado */
@@ -2887,19 +2751,6 @@ body {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Header */
-header {
-    background-color: var(--header-background-color);
-    color: var(--text-color);
-    padding: 1.5rem 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 2px 4px var(--shadow-color);
-    flex-wrap: wrap;
-    gap: 15px;
-}
-
 header h1 {
     margin: 0;
     font-size: 1.8rem;
@@ -2926,33 +2777,7 @@ body.dark-mode .header-logo-icon {
 }
 
 
-.header-buttons-group {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
 
-/* Theme Toggle Button */
-#theme-toggle {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 15px;
-    background-color: var(--button-secondary-background); /* Usando secondary para o Pomodoro */
-    color: var(--text-color);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 0.9em;
-    font-weight: 600;
-    transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
-    box-shadow: 0 2px 5px var(--shadow-color);
-}
-
-#theme-toggle:hover {
-    background-color: var(--button-secondary-hover);
-    transform: translateY(-1px);
-}
 
 #theme-toggle .icon {
     width: 20px;
@@ -3632,3 +3457,67 @@ body.dark-mode .task-section.archived-section {
     }
 }
 
+/* ... seus estilos existentes ... */
+
+/* Estilo para o botão de voltar (pode ser o mesmo do theme-toggle) */
+#back-button {
+    background-color: var(--button-background-color);
+    color: var(--button-text-color);
+    border: none;
+    padding: 0.75rem 1.25rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    display: flex; /* Para alinhar o ícone e o texto */
+    align-items: center;
+    gap: 8px; /* Espaçamento entre o ícone e o texto */
+    transition: background-color 0.3s ease;
+}
+
+#back-button:hover {
+    background-color: var(--button-hover-color);
+}
+
+#back-button .icon {
+    width: 20px; /* Tamanho do ícone */
+    height: 20px;
+    color: var(--button-icon-color, var(--button-text-color)); /* Cor do ícone */
+}
+
+/* Se você tiver o modo escuro, adicione estilos para ele também */
+body.dark-mode #back-button {
+    background-color: var(--dark-button-background-color);
+    color: var(--dark-button-text-color);
+}
+
+body.dark-mode #back-button:hover {
+    background-color: var(--dark-button-hover-color);
+}
+
+body.dark-mode #back-button .icon {
+    color: var(--dark-button-icon-color, var(--dark-button-text-color));
+}
+
+/* Certifique-se que o grupo de botões está bem alinhado */
+.header-buttons-group {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Espaçamento entre os botões */
+}
+
+/* ... o restante do seu CSS ... */
+
+/* Estilos para o Modal de Mensagem */
+.modal-message-text {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.1em;
+    color: var(--text-color);
+}
+
+/* Ajustes para o botão OK do modal de mensagem */
+#message-modal-ok-button {
+    margin: 0 auto; /* Centraliza o botão OK */
+    display: block; /* Garante que o margin auto funcione */
+}

@@ -12,6 +12,7 @@ body {
     min-height: 100vh;
     background: #121212;
     overflow: hidden;
+    position: relative; /* Adicionado: Essencial para posicionar o botão de voltar */
 }
 
 .background-glow {
@@ -29,6 +30,8 @@ body {
     display: flex;
     gap: 40px;
     z-index: 2;
+    /* Se o back-button estiver dentro de .app-container,
+       este também precisaria de position: relative; */
 }
 
 .calendar-container {
@@ -262,3 +265,58 @@ body {
     color: #fff;
 }
 #close-modal:hover { background-color: #444; }
+
+/* Estilo para o botão de voltar */
+#back-button {
+    background-color: #d8d8d8;
+    color: var(--button-text-color, #333); /* Usar uma fallback caso a variável não exista */
+    border: none;
+    padding: 0.75rem 1.25rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    display: flex; /* Para alinhar o ícone e o texto */
+    align-items: center;
+    gap: 8px; /* Espaçamento entre o ícone e o texto */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Adicionado box-shadow na transição */
+
+    /* Posicionamento absoluto no canto superior esquerdo */
+    position: absolute;
+    left: 1.5rem; /* Distância da borda esquerda */
+    top: 1.5rem;  /* Distância da borda superior */
+    z-index: 10; /* Garante que fique acima de outros elementos */
+}
+
+#back-button:hover {
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(18, 18, 18, 0.2); /* Corrigido: Adiciona uma sombra funcional */
+}
+
+#back-button .icon {
+    width: 20px; /* Tamanho do ícone */
+    height: 20px;
+    color: var(--button-icon-color, var(--button-text-color, #333)); /* Cor do ícone com fallbacks */
+}
+
+/* Certifique-se que o grupo de botões está bem alinhado */
+/* Nota: Este seletor pode não ser relevante se o back-button não estiver neste grupo */
+.header-buttons-group {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Espaçamento entre os botões */
+}
+
+/* Estilos para o Modal de Mensagem */
+.modal-message-text {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.1em;
+    color: var(--text-color);
+}
+
+/* Ajustes para o botão OK do modal de mensagem */
+#message-modal-ok-button {
+    margin: 0 auto; /* Centraliza o botão OK */
+    display: block; /* Garante que o margin auto funcione */
+}

@@ -11,6 +11,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const saveReminderBtn = document.getElementById("save-reminder");
     const deleteReminderBtn = document.getElementById("delete-reminder");
 
+    // NOVO: Referência ao botão de voltar
+    const backButton = document.getElementById("back-button");
+
     let date = new Date();
     let currYear = date.getFullYear();
     let currMonth = date.getMonth();
@@ -127,4 +130,11 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     renderCalendar();
+
+    // NOVO: Event Listener para o botão de voltar
+    if (backButton) { // Adicione esta verificação para evitar erros se o botão não for encontrado
+        backButton.addEventListener("click", () => {
+            history.back(); // Esta função do navegador faz a página voltar na história
+        });
+    }
 });
