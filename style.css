@@ -1603,20 +1603,6 @@ body:not(.dark-mode) .moon-icon {
 .moon-icon {
     color: skyblue; /* Mantenha uma cor que se destaque no modo escuro */
 }
-
-/* NOVO BLOCO: Estilos específicos para o botão no MODO ESCURO */
-body.dark-mode #theme-toggle {
-    background-color: var(--button-secondary-background); /* Usando uma variável do seu tema escuro */
-    color: var(--text-color); /* Cor do texto/ícone no modo ESCURO */
-    border-color: var(--border-color); /* Cor da borda no modo ESCURO */
-}
-
-/* NOVO BLOCO: Estilos para o botão no hover no MODO ESCURO */
-body.dark-mode #theme-toggle:hover {
-    background-color: var(--button-secondary-hover); /* Cor de fundo no hover no modo ESCURO */
-    border-color: var(--primary-color); /* Você pode ajustar essa borda para algo que combine */
-}
-
 /* Main Content */
 main {
     flex-grow: 1; /* Permite que o conteúdo principal ocupe o espaço restante */
@@ -2192,16 +2178,10 @@ body:not(.dark-mode) .moon-icon {
 }
 
 /* NOVO BLOCO: Estilos específicos para o botão no MODO ESCURO */
-body.dark-mode #theme-toggle {
-    background-color: var(--button-secondary-background); /* Usando uma variável do seu tema escuro */
-    color: var(--text-color); /* Cor do texto/ícone no modo ESCURO */
-    border-color: var(--border-color); /* Cor da borda no modo ESCURO */
-}
-
-/* NOVO BLOCO: Estilos para o botão no hover no MODO ESCURO */
-body.dark-mode #theme-toggle:hover {
-    background-color: var(--button-secondary-hover); /* Cor de fundo no hover no modo ESCURO */
-    border-color: var(--primary-color); /* Você pode ajustar essa borda para algo que combine */
+body.dark-mode #theme-toggle{
+    background-color: #4A5568; /* Cinza escuro */
+    border-color: #718096;
+    color: white;
 }
 
 /* Main Content */
