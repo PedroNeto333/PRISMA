@@ -57,7 +57,7 @@ A proposta do PRISMA é unir organização e tecnologia em uma plataforma única
 
 Este projeto começou como uma atividade universitária, evoluindo para uma solução funcional e versátil de organização digital pessoal. O nome **PRISMA** representa a ideia de unir múltiplos aspectos da vida em um painel único, focado e claro.
 
-Desenvolvido por [PedroNeto333](https://github.com/PedroNeto333) e [takamae1907]((https://github.com/takamae1907))
+Desenvolvido por [PedroNeto333](https://github.com/PedroNeto333) e [AbnerOliveira](https://github.com/takamae1907)
 
 ---
 
