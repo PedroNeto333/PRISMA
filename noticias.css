@@ -6,6 +6,11 @@
     --soft-green: #66BB6A;    /* Um verde um pouco mais suave */
     --card-background: #282828; /* Um cinza escuro para os cards */
     --border-color: #3a3a3a; /* Borda sutil */
+
+    /* Novas variáveis para o cabeçalho inspirado na CNN */
+    --header-bg: #000; /* Fundo preto total para o header */
+    --cnn-green: #4CAF50; /* Usei cnn-red, mas você tinha cnn-green para o vermelho da CNN. Ajuste se preferir. */
+    --icon-color: #ffffff; /* Cor dos ícones no header */
 }
 
 body {
@@ -24,48 +29,202 @@ body {
     padding: 20px 0;
 }
 
-/* Header */
-header {
-    background-color: var(--card-background);
-    color: var(--text-light);
-    padding: 15px 0;
-    border-bottom: 1px solid var(--border-color);
+/* ==================================================================== */
+/* NOVO: Estilos para o Botão Voltar */
+/* ==================================================================== */
+/* No seu style.css, dentro da seção do header */
+
+/* ==================================================================== */
+/* NOVO: Estilos para o Botão Voltar */
+/* ==================================================================== */
+#back-button {
+    background-color: var(--card-background); /* Fundo escuro */
+    color: var(--accent-green); /* Texto e ícone verde */
+    border: 1px solid var(--border-color); /* Borda sutil */
+    padding: 0.75rem 1.25rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    display: flex; /* Para alinhar o ícone e o texto */
+    align-items: center;
+    gap: 8px; /* Espaçamento entre o ícone e o texto */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
+
+    /* ALTERAÇÃO AQUI: de 'absolute' para 'fixed' */
+    position: fixed;
+    left: 1.5rem; /* Distância da borda esquerda */
+    top: 1.5rem;  /* Distância da borda superior */
+    z-index: 1001; /* Garante que fique acima de outros elementos */
 }
 
-header h1 {
-    text-align: center;
+#back-button:hover {
+    background-color: var(--accent-green); /* Inverte as cores no hover */
+    color: var(--background-dark);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+#back-button .icon {
+    width: 20px; /* Tamanho do ícone */
+    height: 20px;
+    color: inherit; /* Herda a cor do texto do botão */
+}
+
+/* ... o restante do seu CSS ... */
+
+
+/* ==================================================================== */
+/* Fim do Botão Voltar */
+/* ==================================================================== */
+
+
+/* ==================================================================== */
+/* HEADER - Estilo inspirado na CNN Brasil (Mantido e ajustado) */
+/* ==================================================================== */
+.main-header {
+    background-color: var(--header-bg);
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-color); /* Borda sutil na parte inferior */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5); /* Sombra para dar profundidade */
+    position: relative; /* Pode ser útil se outros elementos forem posicionados dentro dele */
+    z-index: 10; /* Garante que o header fique abaixo do botão de voltar */
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 15px; /* Adiciona um pouco de padding nas laterais */
+}
+
+.header-line {
+    width: 4px;
+    height: 30px;
+    background-color: #4CAF50; /* Linha verde */
+    margin-right: 15px;
+    border-radius: 2px;
+}
+
+
+/* Removido o estilo 'header-line' que você adicionou no HTML.
+   Se quiser a linha vertical, use o pseudo-elemento ::after na logo conforme
+   instruções anteriores, ou adicione uma div com estilo de linha.
+   Vou deixar como estava na última resposta para o ::after da logo,
+   que é mais flexível para a linha vertical.
+*/
+/* .header-line {
+    width: 4px;
+    height: 30px;
+    background-color: #4CAF50; /* Linha verde */
+/* margin-right: 15px;
+    border-radius: 2px;
+} */
+
+
+.menu-toggle {
+    background: none;
+    border: none;
+    color: var(--icon-color);
+    font-size: 1.5em;
+    cursor: pointer;
+    display: none; /* Escondido por padrão, aparece em telas menores */
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+/* Adicionando a linha vertical ao lado do "Notícias do Mundo" como pseudo-elemento */
+.logo h1 {
     margin: 0;
-    color: var(--accent-green);
-    font-size: 2.5em;
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #FFF; /* Cor do texto da logo */
+    position: relative; /* Necessário para posicionar o pseudo-elemento */
+    padding-right: 20px; /* Espaço para a barra vertical */
 }
 
-header nav ul {
+.logo .header-logo-img { /* Estilo para a imagem do ícone */
+    height: 40px; /* Ajuste o tamanho conforme necessário */
+    margin-right: 10px;
+}
+
+.logo .logo-text {
+    /* Esta classe era para a cor do texto, se você usasse um <span> dentro do h1 */
+    /* Se "Notícias do Mundo" é o H1 completo, este estilo pode ser ajustado */
+    color: var(--accent-green); /* Mantendo o verde para o texto da logo */
+}
+
+.main-nav ul {
     list-style: none;
     padding: 0;
-    margin: 15px 0 0 0;
+    margin: 0;
     display: flex;
-    justify-content: center;
-    flex-wrap: wrap; /* Permite que os itens quebrem a linha em telas menores */
+    gap: 25px; /* Espaçamento entre os itens do menu */
 }
 
-header nav ul li {
-    margin: 0 15px;
-}
-
-header nav ul li a {
+.main-nav ul li a {
     color: var(--text-light);
     text-decoration: none;
+    font-weight: normal; /* Geralmente os links do nav não são bold */
+    font-size: 0.95em;
+    padding: 5px 0;
+    transition: color 0.3s ease;
+    white-space: nowrap; /* Impede quebras de linha indesejadas */
+}
+
+.main-nav ul li a:hover {
+    color: var(--cnn-red); /* Mude para vermelho ao passar o mouse */
+}
+
+.main-nav .nav-item.live { /* Esta classe não está no seu HTML atual, mas mantida por referência */
+    color: var(--cnn-red); /* Cor vermelha para o link "Ao vivo" */
     font-weight: bold;
-    padding: 5px 10px;
-    transition: color 0.3s ease, border-bottom 0.3s ease;
+    display: flex;
+    align-items: center;
 }
 
-header nav ul li a:hover {
-    color: var(--accent-green);
-    border-bottom: 2px solid var(--accent-green);
+.main-nav .nav-item.live .live-icon { /* Esta classe não está no seu HTML atual, mas mantida por referência */
+    font-size: 0.6em; /* Tamanho da bolinha */
+    margin-right: 5px;
+    color: var(--cnn-red); /* Cor da bolinha */
+    animation: pulse 1.5s infinite; /* Animação de pulso para a bolinha */
 }
 
-/* Main Content */
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.2); opacity: 0.7; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Espaçamento entre os botões da direita */
+}
+
+.search-button,
+.user-button {
+    background: none;
+    border: none;
+    color: var(--icon-color);
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.search-button:hover,
+.user-button:hover {
+    color: var(--cnn-red); /* Mude para vermelho ao passar o mouse */
+}
+
+/* ==================================================================== */
+/* Fim do HEADER */
+/* ==================================================================== */
+
+
+/* Main Content (mantido do código anterior, ajustado para novas variáveis de cor) */
 main {
     padding: 40px 0;
 }
@@ -178,19 +337,24 @@ footer {
     border-top: 1px solid var(--border-color);
 }
 
-/* Responsiveness */
+/* ==================================================================== */
+/* RESPONSIVIDADE */
+/* ==================================================================== */
+@media (max-width: 992px) { /* Esconde a navegação principal em telas médias */
+    .main-nav {
+        display: none;
+    }
+    .menu-toggle {
+        display: block; /* Mostra o botão de hambúrguer */
+    }
+    .header-content {
+        justify-content: space-between; /* Ajusta o alinhamento quando o nav está oculto */
+    }
+}
+
 @media (max-width: 768px) {
     header h1 {
         font-size: 2em;
-    }
-
-    header nav ul {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    header nav ul li {
-        margin: 5px 0;
     }
 
     .news-card.featured {
@@ -199,6 +363,19 @@ footer {
 
     .news-card.featured h3 {
         font-size: 1.8em;
+    }
+    .logo h1::after { /* Remove a linha vertical em telas menores */
+        content: none;
+    }
+    #back-button { /* Ajuste o posicionamento do botão voltar em telas menores */
+        left: 10px;
+        top: 10px;
+        padding: 0.5rem 1rem;
+        font-size: 0.9em;
+    }
+    #back-button .icon {
+        width: 18px;
+        height: 18px;
     }
 }
 
@@ -213,5 +390,11 @@ footer {
 
     .news-card h3 {
         font-size: 1.3em;
+    }
+    .header-left {
+        gap: 10px; /* Reduz o espaçamento */
+    }
+    .logo h1 {
+        font-size: 1.5em; /* Reduz o tamanho da logo */
     }
 }
