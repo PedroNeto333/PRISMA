@@ -188,6 +188,7 @@ body {
 
 .volume-control input[type="range"] {
     -webkit-appearance: none; /* Remove estilo padrão do navegador */
+    appearance: none; /* Compatibilidade com outros navegadores */
     width: 100px;
     height: 4px;
     background: var(--tertiary-bg);
