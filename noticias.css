@@ -175,11 +175,11 @@ body {
 }
 
 .main-nav ul li a:hover {
-    color: var(--cnn-red); /* Mude para vermelho ao passar o mouse */
+    color: var(--cnn-green); /* Mude para vermelho ao passar o mouse */
 }
 
 .main-nav .nav-item.live { /* Esta classe não está no seu HTML atual, mas mantida por referência */
-    color: var(--cnn-red); /* Cor vermelha para o link "Ao vivo" */
+    color: var(--cnn-green); /* Cor vermelha para o link "Ao vivo" */
     font-weight: bold;
     display: flex;
     align-items: center;
@@ -188,7 +188,7 @@ body {
 .main-nav .nav-item.live .live-icon { /* Esta classe não está no seu HTML atual, mas mantida por referência */
     font-size: 0.6em; /* Tamanho da bolinha */
     margin-right: 5px;
-    color: var(--cnn-red); /* Cor da bolinha */
+    color: var(--cnn-green); /* Cor da bolinha */
     animation: pulse 1.5s infinite; /* Animação de pulso para a bolinha */
 }
 
@@ -216,7 +216,7 @@ body {
 
 .search-button:hover,
 .user-button:hover {
-    color: var(--cnn-red); /* Mude para vermelho ao passar o mouse */
+    color: var(--cnn-green); /* Mude para vermelho ao passar o mouse */
 }
 
 /* ==================================================================== */

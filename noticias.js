@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Exibe a primeira notícia como destaque
-        const featuredNews = newsItems.shift(); // Remove e retorna o primeiro item do array
+        const featuredNews = newsItems.shift();
         if (featuredNews) {
             featuredTitleElement.textContent = featuredNews.title || 'Título Indisponível';
             featuredDescriptionElement.textContent = featuredNews.description || 'Nenhuma descrição disponível.';
@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     fetchAndDisplayLatestNews();
 
-    // Código do botão "Voltar ao Topo" (mantido do exemplo anterior)
+    // Código do botão "Voltar ao Topo"
     const backToTopButton = document.createElement('button');
     backToTopButton.textContent = '↑ Voltar ao Topo';
     backToTopButton.style.cssText = `
@@ -117,11 +117,41 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // NOVO: Referência e Event Listener para o botão de voltar
+    // Referência e Event Listener para o botão de voltar
     const backButton = document.getElementById("back-button");
-    if (backButton) { // Adicione esta verificação para evitar erros se o botão não for encontrado
+    if (backButton) {
         backButton.addEventListener("click", () => {
-            history.back(); // Esta função do navegador faz a página voltar na história
+            history.back();
         });
     }
+
+    // =====================================================================================
+    // NOVO: Lógica para a animação da barra de pesquisa
+    // =====================================================================================
+    const searchButton = document.querySelector('.search-button');
+    const searchContainer = document.querySelector('.search-container');
+    const searchInput = document.querySelector('.search-input');
+
+    searchButton.addEventListener('click', (event) => {
+        event.stopPropagation(); // Impede que o clique no botão feche imediatamente
+        searchContainer.classList.toggle('active');
+        if (searchContainer.classList.contains('active')) {
+            searchInput.focus(); // Foca no input quando ele se expande
+        } else {
+            searchInput.value = ''; // Limpa o input quando ele se recolhe
+        }
+    });
+
+    // Fecha a barra de pesquisa se clicar fora dela
+    document.addEventListener('click', (event) => {
+        if (!searchContainer.contains(event.target)) {
+            searchContainer.classList.remove('active');
+            searchInput.value = ''; // Limpa o input ao recolher
+        }
+    });
+
+    // Impede que o clique dentro do input feche a barra de pesquisa
+    searchInput.addEventListener('click', (event) => {
+        event.stopPropagation();
+    });
 });
