@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", async () => {
     // URL base do seu backend Python (ajuste se necessário)
     // Se você estiver rodando em um servidor diferente, mude esta URL
-    const BACKEND_URL = 'http://127.0.0.1:5000'; 
+    const BACKEND_URL = 'http://127.0.0.1:5000';
 
     // Referências aos elementos DOM
     const connectionStatusDiv = document.getElementById("connection-status");
@@ -9,15 +9,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     const notificationBadges = document.querySelectorAll(".notification-badge");
     const simulateButtons = document.querySelectorAll(".simulate-btn");
 
-    // Referências DOM para o modal de mensagem (mantido do Firebase)
+    // Referências DOM para o modal de mensagem
     const messageModal = document.getElementById("message-modal");
     const messageModalTitle = document.getElementById("message-modal-title");
     const messageModalText = document.getElementById("message-modal-text");
     const messageModalOkButton = document.getElementById("message-modal-ok-button");
 
     // Simula um ID de usuário. Em um app real, viria de um sistema de autenticação.
-    // Para testes, um ID fixo ou gerado aleatoriamente simples serve.
-    const userId = "user_dashboard_123"; 
+    const userId = "user_dashboard_123";
 
     // --- Funções Auxiliares de UI (para substituir alert/confirm) ---
     function showMessageBox(title, message, callback = () => {}) {
@@ -25,7 +24,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         messageModalText.textContent = message;
         messageModal.classList.add("visible");
 
-        messageModalOkButton.onclick = null; 
+        messageModalOkButton.onclick = null;
         messageModalOkButton.onclick = () => {
             messageModal.classList.remove("visible");
             callback();
@@ -44,7 +43,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 badge.textContent = count > 99 ? '99+' : count;
                 badge.classList.add('visible');
             } else {
-                badge.textContent = '0'; 
+                badge.textContent = '0';
                 badge.classList.remove('visible');
             }
         });
@@ -84,8 +83,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             }
             const data = await response.json();
             console.log(`Notificação incrementada para ${cardType}:`, data);
-            // Re-fetch para atualizar a UI, ou você pode atualizar diretamente se o backend retornar o estado completo
-            fetchNotifications(); 
+            fetchNotifications();
         } catch (error) {
             console.error("Erro ao incrementar notificação:", error);
             showMessageBox("Erro", `Falha ao adicionar notificação para ${cardType}.`);
@@ -107,8 +105,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             }
             const data = await response.json();
             console.log(`Notificações zeradas para ${cardType}:`, data);
-            // Re-fetch para atualizar a UI
-            fetchNotifications(); 
+            fetchNotifications();
         } catch (error) {
             console.error("Erro ao zerar notificação:", error);
             showMessageBox("Erro", `Falha ao zerar notificações para ${cardType}.`);
@@ -127,35 +124,129 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
     }
 
+    // Referências DOM para o botão de tela cheia
+    const fullscreenButton = document.getElementById("fullscreen-button");
+    // Garante que o ícone de expandir já existe no HTML ou o cria
+    let expandIcon = fullscreenButton.querySelector('.fa-expand');
+    if (!expandIcon) {
+        expandIcon = document.createElement('i');
+        expandIcon.classList.add('fas', 'fa-expand');
+        fullscreenButton.prepend(expandIcon); // Adiciona no início do botão
+    }
+
+    const compressIcon = document.createElement('i');
+    compressIcon.classList.add('fas', 'fa-compress');
+    compressIcon.style.display = 'none'; // Escondido por padrão
+    fullscreenButton.appendChild(compressIcon);
+
+    // Função para entrar em tela cheia e atualizar o botão
+    function enterFullscreenMode() {
+        if (document.documentElement.requestFullscreen) {
+            document.documentElement.requestFullscreen().then(() => {
+                fullscreenButton.classList.add('active');
+                expandIcon.style.display = 'none';
+                compressIcon.style.display = 'inline-block';
+                // Salva o estado de tela cheia no localStorage
+                localStorage.setItem('minhavida_fullscreen_active', 'true');
+            }).catch(err => {
+                console.error(`Erro ao tentar entrar em tela cheia: ${err.message} (${err.name})`);
+                showMessageBox("Erro de Tela Cheia", "Não foi possível entrar no modo de tela cheia. Seu navegador pode ter restrições ou a solicitação foi negada.");
+            });
+        }
+    }
+
+    // Função para sair da tela cheia e atualizar o botão
+    function exitFullscreenMode() {
+        if (document.exitFullscreen) {
+            document.exitFullscreen().then(() => {
+                fullscreenButton.classList.remove('active');
+                expandIcon.style.display = 'inline-block';
+                compressIcon.style.display = 'none';
+                // Remove o estado de tela cheia do localStorage
+                localStorage.removeItem('minhavida_fullscreen_active');
+            }).catch(err => {
+                console.error(`Erro ao tentar sair da tela cheia: ${err.message} (${err.name})`);
+            });
+        }
+    }
+
+    // Event listener para o botão de tela cheia
+    fullscreenButton.addEventListener('click', () => {
+        if (!document.fullscreenElement) {
+            enterFullscreenMode();
+        } else {
+            exitFullscreenMode();
+        }
+    });
+
+    // Atualiza o botão se o usuário sair/entrar do modo de tela cheia por outro meio (ex: tecla ESC)
+    document.addEventListener('fullscreenchange', () => {
+        if (!document.fullscreenElement) {
+            fullscreenButton.classList.remove('active');
+            expandIcon.style.display = 'inline-block';
+            compressIcon.style.display = 'none';
+            // Remove o estado se sair por ESC, etc.
+            localStorage.removeItem('minhavida_fullscreen_active');
+        } else {
+            fullscreenButton.classList.add('active');
+            expandIcon.style.display = 'none';
+            compressIcon.style.display = 'inline-block';
+            // Salva o estado se entrar em tela cheia por outro meio
+            localStorage.setItem('minhavida_fullscreen_active', 'true');
+        }
+    });
+
     // Event listeners para os cards
     cards.forEach(card => {
-        card.addEventListener('click', () => {
+        card.addEventListener('click', (event) => {
+            // Impedir a navegação padrão do <a> para controlar o redirecionamento
+            event.preventDefault(); // MUITO IMPORTANTE!
+
             const cardType = card.dataset.cardType;
-            let message = `Você clicou no card: "${cardType}"`;
+            let targetUrl = ''; // Variável para armazenar a URL de destino
 
             // Zera as notificações do card clicado
             clearNotification(cardType);
 
             if (cardType === 'gestor-tarefas') {
-                message += '\nRedirecionando para o Gestor de Tarefas...';
-                window.location.href = 'index.html'; // Redireciona para o gestor de tarefas
-            } else if (cardType === 'pomodoro') {
-                message = 'Você clicou no card Pomodoro!';
-                window.location.href = 'pomodoro.html'; // Redireciona para a página do Pomodoro
+                targetUrl = 'index.html';
+            } else if (cardType === 'music') {
+                targetUrl = 'Spotify.html';
+            } else if (cardType === 'news') {
+                targetUrl = 'noticias.html';
             } else if (cardType === 'calendar') {
-                message = 'Você clicou no card Calendário!';
-                window.location.href = 'calendario.html'; // Redireciona para a página do Calendário
+                targetUrl = 'calendario.html';
+            } else if (cardType === 'pomodoro') {
+                targetUrl = 'pomodoro.html';
             } else {
-                showMessageBox("Navegação", message);
+                showMessageBox("Navegação", `Você clicou no card: "${cardType}"`);
+                return; // Impede redirecionamento para estes cards
             }
+
+            // **NOVO:** Antes de redirecionar, verifica se está em tela cheia
+            if (document.fullscreenElement) {
+                // Se estiver em tela cheia, registra no localStorage
+                localStorage.setItem('minhavida_fullscreen_active', 'true');
+            } else {
+                // Se não estiver, garante que não há lixo no localStorage
+                localStorage.removeItem('minhavida_fullscreen_active');
+            }
+
+            // Redireciona para a URL de destino
+            window.location.href = targetUrl;
         });
     });
 
     // Inicia a busca de notificações e configura os botões de simulação
-    // Chamada inicial para carregar as notificações
-    fetchNotifications(); 
-    // Polling para simular tempo real (a cada 5 segundos)
-    setInterval(fetchNotifications, 5000); 
-
+    fetchNotifications();
+    setInterval(fetchNotifications, 5000); // Polling para simular tempo real
     setupSimulationButtons(); // Configura os listeners dos botões de simulação
+
+    // Referência e Event Listener para o botão de voltar (se existir)
+    const backButton = document.getElementById("back-button");
+    if (backButton) {
+        backButton.addEventListener("click", () => {
+            history.back();
+        });
+    }
 });

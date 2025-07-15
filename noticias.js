@@ -125,33 +125,4 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // =====================================================================================
-    // NOVO: Lógica para a animação da barra de pesquisa
-    // =====================================================================================
-    const searchButton = document.querySelector('.search-button');
-    const searchContainer = document.querySelector('.search-container');
-    const searchInput = document.querySelector('.search-input');
-
-    searchButton.addEventListener('click', (event) => {
-        event.stopPropagation(); // Impede que o clique no botão feche imediatamente
-        searchContainer.classList.toggle('active');
-        if (searchContainer.classList.contains('active')) {
-            searchInput.focus(); // Foca no input quando ele se expande
-        } else {
-            searchInput.value = ''; // Limpa o input quando ele se recolhe
-        }
-    });
-
-    // Fecha a barra de pesquisa se clicar fora dela
-    document.addEventListener('click', (event) => {
-        if (!searchContainer.contains(event.target)) {
-            searchContainer.classList.remove('active');
-            searchInput.value = ''; // Limpa o input ao recolher
-        }
-    });
-
-    // Impede que o clique dentro do input feche a barra de pesquisa
-    searchInput.addEventListener('click', (event) => {
-        event.stopPropagation();
-    });
 });
