@@ -1,0 +1,248 @@
+body {
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f4f7f6;
+    margin: 0;
+    padding: 20px;
+    color: #333;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+    background-color: #fff;
+    padding: 20px 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+h1 {
+    color: #0056b3;
+    margin-bottom: 15px;
+}
+
+nav {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.nav-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.nav-button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+.nav-button:active {
+    transform: translateY(0);
+    background-color: #004085;
+}
+
+main {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    min-width: 320px;
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+}
+
+/* Estilos para a Calculadora Simples */
+.calculator {
+    background-color: #333;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    margin: 20px auto;
+    width: 280px;
+}
+
+#display {
+    width: 100%;
+    padding: 20px;
+    font-size: 24px;
+    text-align: right;
+    border: none;
+    background-color: #444;
+    color: #fff;
+    box-sizing: border-box;
+}
+
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.calculator button {
+    padding: 20px;
+    font-size: 20px;
+    border: none;
+    background-color: #555;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.calculator button:hover {
+    background-color: #777;
+}
+
+.calculator .zero {
+    grid-column: 1 / span 2;
+}
+
+.calculator button:last-child {
+    background-color: #007bff;
+}
+
+.calculator button:last-child:hover {
+    background-color: #0056b3;
+}
+
+/* Estilos para a Calculadora de IMC */
+.bmi-calculator {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+    background-color: #fdfdfd;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin-top: 20px;
+}
+
+.bmi-calculator label {
+    font-size: 18px;
+    margin-bottom: 5px;
+    color: #444;
+}
+
+.bmi-calculator input[type="number"] {
+    width: 80%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.bmi-calculator button {
+    padding: 12px 25px;
+    font-size: 18px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.bmi-calculator button:hover {
+    background-color: #218838;
+}
+
+#bmi-result {
+    margin-top: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #007bff;
+}
+
+/* --- Novos estilos para a Calculadora de Presença --- */
+.presence-calculator {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+    background-color: #fdfdfd;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin-top: 20px;
+}
+
+.presence-calculator div {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Alinha o label e input à esquerda */
+    padding-left: 10%; /* Ajuste para não colar na borda */
+}
+
+.presence-calculator label {
+    font-size: 17px;
+    margin-bottom: 5px;
+    color: #444;
+    font-weight: bold;
+}
+
+.presence-calculator input[type="number"],
+.presence-calculator input[type="text"] { /* Para o input de porcentagem, se quiser texto */
+    width: 80%; /* Ajuste para preencher melhor */
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box; /* Garante que padding não aumente a largura */
+}
+
+.presence-calculator button {
+    padding: 12px 25px;
+    font-size: 18px;
+    background-color: #6f42c1; /* Um tom de roxo */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+.presence-calculator button:hover {
+    background-color: #563d7c;
+}
+
+#presence-result {
+    margin-top: 20px;
+    font-size: 18px;
+    line-height: 1.5; /* Espaçamento entre as linhas */
+    text-align: left; /* Alinha o texto do resultado */
+    padding: 0 10%; /* Adiciona um padding para o texto */
+}
+
+#presence-result p {
+    margin: 5px 0; /* Espaçamento entre parágrafos de resultado */
+}
+
+.result-good {
+    color: #28a745; /* Verde */
+    font-weight: bold;
+}
+
+.result-warning {
+    color: #ffc107; /* Amarelo/Alerta */
+    font-weight: bold;
+}
+
+.result-bad {
+    color: #dc3545; /* Vermelho */
+    font-weight: bold;
+}
